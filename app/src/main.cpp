@@ -25,16 +25,17 @@ const char *state_json;  //shadow state data
 uint32_t SensorFlags;
 #define SENSOR_FLAGS_FOUND_BME280  0x00000001
 uint32_t EnableAP;
-
+const char topicReadings[]= "readings";
+const char topicAlerts[]= "alerts";
 
 static void mqtt_timer_cb(void *arg) {
-  char topic[100];//,json[256];
+  //char topic[100];//,json[256];
   float temperature,humidity, pressure;
 
  
   
   //snprintf(topic, sizeof(topic), "/devices/%s/events",mgos_sys_config_get_device_id());
-  snprintf(topic, sizeof(topic), "readings");
+  //snprintf(topic, sizeof(topic), "readings");
 
  // char buf[8];
 //  int x = mgos_gpio_toggle(mgos_sys_config_get_board_led3_pin());
@@ -93,7 +94,7 @@ static void mqtt_timer_cb(void *arg) {
   //                          temperature,humidity,pressure,x,ir,full,full-ir,lux,tvoc,co2);
 
   //bool res = mgos_mqtt_pubf(topic,MG_MQTT_QOS(1),false,json);
-  bool res = mgos_mqtt_pubf(topic, 0, false /* retain */,
+  bool res = mgos_mqtt_pubf(topicReadings, 0, false /* retain */,
             "{DeviceID: \"%s\",Temperature: %f,Humidity: %f,Pressure: %f,WaterLevel: %f}",
             mgos_sys_config_get_device_id(),temperature,humidity,pressure,WaterLevel);
 
@@ -179,7 +180,7 @@ static void wifi_cb(int ev, void *evd, void *arg) {
 #endif /* MGOS_HAVE_WIFI */
 
 static void button_cb(int pin, void *arg) {
-  char topic[100];
+  //char topic[100];
   float temperature,humidity, pressure;
 
     LOG(LL_INFO, ("button_cb"));
@@ -237,7 +238,7 @@ static void button_cb(int pin, void *arg) {
     //bool res = mgos_mqtt_pubf("readings", 0, false /* retain */,
     //                          "{DeviceID: \"%s\",Temperature: %f, Humidity: %f, Pressure: %f}",
     //                        mgos_sys_config_get_device_id(),temperature,humidity,pressure);
-    bool res = mgos_mqtt_pubf(topic, 0, false /* retain */,
+    bool res = mgos_mqtt_pubf(topicReadings, 0, false /* retain */,
             "{DeviceID: \"%s\",Temperature: %f,Humidity: %f,Pressure: %f,WaterLevel: %f}",
             mgos_sys_config_get_device_id(),temperature,humidity,pressure,WaterLevel);
 
