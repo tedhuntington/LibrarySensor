@@ -1,0 +1,41 @@
+author: Ted Huntington
+description: Mongoose firmware for C/C++ to read and send temperature, humidity, and other sensor info to web over wifi
+version: 1.0
+
+libs_version: ${mos.version}
+modules_version: ${mos.version}
+mongoose_os_version: ${mos.version}
+
+tags:
+  - c
+
+sources:
+  - src
+
+filesystem:
+  - fs
+
+config_schema:
+  - ["mqtt.server", "iot.eclipse.org:1883"]
+  #- ["debug.level", 3]
+  - ["i2c.enable", true]
+  #- ["i2c.debug", true]
+#  - ["i2c.sda_gpio", 32]
+#  - ["i2c.scl_gpio", 33]
+  - ["i2c.sda_gpio", 23]
+  - ["i2c.scl_gpio", 22]
+  - ["apmode", "b", false, {title: "User set AP Mode configuration"}]
+
+libs:
+  - origin: https://github.com/mongoose-os-libs/boards
+  - origin: https://github.com/mongoose-os-libs/demo-bundle
+  - origin: https://github.com/mongoose-os-libs/http-server
+#  - origin: https://github.com/mongoose-os-libs/i2c
+  - origin: https://github.com/mongoose-os-libs/bme280
+  - origin: https://github.com/mongoose-os-libs/shadow
+  - origin: https://github.com/mongoose-os-libs/aws
+  - origin: https://github.com/mongoose-os-libs/wifi
+  - origin: https://github.com/mongoose-os-apps/wifi-setup-web
+  
+# Used by the mos tool to catch mos binaries incompatible with this file format
+manifest_version: 2017-05-18
