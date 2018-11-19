@@ -543,10 +543,6 @@
   - b
   - false
   - title: Send logs
-- - dash.stats_interval
-  - i
-  - 10
-  - title: Stats interval in seconds. Set to 0 to disable
 - - http
   - o
   - title: HTTP Server
@@ -638,6 +634,10 @@
   - i
   - 18
   - title: GPIO to use for RMII MDIO signal
+- - eth.phy_pwr_gpio
+  - i
+  - -1
+  - title: GPIO to use for PHY PWR control signal
 - - gcp
   - o
   - title: GCP IOT settings

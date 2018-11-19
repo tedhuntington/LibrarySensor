@@ -1,7 +1,7 @@
 /* clang-format off */
 /*
  * Generated file - do not edit.
- * Command: /mongoose-os/fw/tools/gen_sys_config.py --c_name=mgos_config --c_global_name=mgos_sys_config --dest_dir=/fwbuild-volumes/latest/apps/app/esp32/build_contexts/build_ctx_997212078/build/gen/ /mongoose-os/fw/src/mgos_debug_udp_config.yaml /mongoose-os/fw/src/mgos_sys_config.yaml /mongoose-os/fw/platforms/esp32/src/esp32_sys_config.yaml /fwbuild-volumes/latest/apps/app/esp32/build_contexts/build_ctx_997212078/build/gen/mos_conf_schema.yml
+ * Command: /mongoose-os/fw/tools/gen_sys_config.py --c_name=mgos_config --c_global_name=mgos_sys_config --dest_dir=/fwbuild-volumes/latest/apps/app/esp32/build_contexts/build_ctx_398655086/build/gen/ /mongoose-os/fw/src/mgos_debug_udp_config.yaml /mongoose-os/fw/src/mgos_sys_config.yaml /mongoose-os/fw/platforms/esp32/src/esp32_sys_config.yaml /fwbuild-volumes/latest/apps/app/esp32/build_contexts/build_ctx_398655086/build/gen/mos_conf_schema.yml
  */
 
 #ifndef MGOS_CONFIG_H_
@@ -240,7 +240,6 @@ struct mgos_config_dash {
   char *server;
   char *ca_file;
   int send_logs;
-  int stats_interval;
 };
 
 struct mgos_config_http {
@@ -272,6 +271,7 @@ struct mgos_config_eth {
   int clk_mode;
   int mdc_gpio;
   int mdio_gpio;
+  int phy_pwr_gpio;
 };
 
 struct mgos_config_gcp {
@@ -647,7 +647,6 @@ const char *mgos_config_get_dash_token(struct mgos_config *cfg);
 const char *mgos_config_get_dash_server(struct mgos_config *cfg);
 const char *mgos_config_get_dash_ca_file(struct mgos_config *cfg);
 int         mgos_config_get_dash_send_logs(struct mgos_config *cfg);
-int         mgos_config_get_dash_stats_interval(struct mgos_config *cfg);
 const struct mgos_config_http *mgos_config_get_http(struct mgos_config *cfg);
 int         mgos_config_get_http_enable(struct mgos_config *cfg);
 const char *mgos_config_get_http_listen_addr(struct mgos_config *cfg);
@@ -673,6 +672,7 @@ const char *mgos_config_get_eth_gw(struct mgos_config *cfg);
 int         mgos_config_get_eth_clk_mode(struct mgos_config *cfg);
 int         mgos_config_get_eth_mdc_gpio(struct mgos_config *cfg);
 int         mgos_config_get_eth_mdio_gpio(struct mgos_config *cfg);
+int         mgos_config_get_eth_phy_pwr_gpio(struct mgos_config *cfg);
 const struct mgos_config_gcp *mgos_config_get_gcp(struct mgos_config *cfg);
 int         mgos_config_get_gcp_enable(struct mgos_config *cfg);
 const char *mgos_config_get_gcp_project(struct mgos_config *cfg);
@@ -943,7 +943,6 @@ void mgos_config_set_dash_token(struct mgos_config *cfg, const char *val);
 void mgos_config_set_dash_server(struct mgos_config *cfg, const char *val);
 void mgos_config_set_dash_ca_file(struct mgos_config *cfg, const char *val);
 void mgos_config_set_dash_send_logs(struct mgos_config *cfg, int         val);
-void mgos_config_set_dash_stats_interval(struct mgos_config *cfg, int         val);
 void mgos_config_set_http_enable(struct mgos_config *cfg, int         val);
 void mgos_config_set_http_listen_addr(struct mgos_config *cfg, const char *val);
 void mgos_config_set_http_document_root(struct mgos_config *cfg, const char *val);
@@ -966,6 +965,7 @@ void mgos_config_set_eth_gw(struct mgos_config *cfg, const char *val);
 void mgos_config_set_eth_clk_mode(struct mgos_config *cfg, int         val);
 void mgos_config_set_eth_mdc_gpio(struct mgos_config *cfg, int         val);
 void mgos_config_set_eth_mdio_gpio(struct mgos_config *cfg, int         val);
+void mgos_config_set_eth_phy_pwr_gpio(struct mgos_config *cfg, int         val);
 void mgos_config_set_gcp_enable(struct mgos_config *cfg, int         val);
 void mgos_config_set_gcp_project(struct mgos_config *cfg, const char *val);
 void mgos_config_set_gcp_region(struct mgos_config *cfg, const char *val);
@@ -1248,7 +1248,6 @@ static inline const char *mgos_sys_config_get_dash_token(void) { return mgos_con
 static inline const char *mgos_sys_config_get_dash_server(void) { return mgos_config_get_dash_server(&mgos_sys_config); }
 static inline const char *mgos_sys_config_get_dash_ca_file(void) { return mgos_config_get_dash_ca_file(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_dash_send_logs(void) { return mgos_config_get_dash_send_logs(&mgos_sys_config); }
-static inline int         mgos_sys_config_get_dash_stats_interval(void) { return mgos_config_get_dash_stats_interval(&mgos_sys_config); }
 static inline const struct mgos_config_http *mgos_sys_config_get_http(void) { return mgos_config_get_http(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_http_enable(void) { return mgos_config_get_http_enable(&mgos_sys_config); }
 static inline const char *mgos_sys_config_get_http_listen_addr(void) { return mgos_config_get_http_listen_addr(&mgos_sys_config); }
@@ -1274,6 +1273,7 @@ static inline const char *mgos_sys_config_get_eth_gw(void) { return mgos_config_
 static inline int         mgos_sys_config_get_eth_clk_mode(void) { return mgos_config_get_eth_clk_mode(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_eth_mdc_gpio(void) { return mgos_config_get_eth_mdc_gpio(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_eth_mdio_gpio(void) { return mgos_config_get_eth_mdio_gpio(&mgos_sys_config); }
+static inline int         mgos_sys_config_get_eth_phy_pwr_gpio(void) { return mgos_config_get_eth_phy_pwr_gpio(&mgos_sys_config); }
 static inline const struct mgos_config_gcp *mgos_sys_config_get_gcp(void) { return mgos_config_get_gcp(&mgos_sys_config); }
 static inline int         mgos_sys_config_get_gcp_enable(void) { return mgos_config_get_gcp_enable(&mgos_sys_config); }
 static inline const char *mgos_sys_config_get_gcp_project(void) { return mgos_config_get_gcp_project(&mgos_sys_config); }
@@ -1544,7 +1544,6 @@ static inline void mgos_sys_config_set_dash_token(const char *val) { mgos_config
 static inline void mgos_sys_config_set_dash_server(const char *val) { mgos_config_set_dash_server(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_dash_ca_file(const char *val) { mgos_config_set_dash_ca_file(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_dash_send_logs(int         val) { mgos_config_set_dash_send_logs(&mgos_sys_config, val); }
-static inline void mgos_sys_config_set_dash_stats_interval(int         val) { mgos_config_set_dash_stats_interval(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_http_enable(int         val) { mgos_config_set_http_enable(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_http_listen_addr(const char *val) { mgos_config_set_http_listen_addr(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_http_document_root(const char *val) { mgos_config_set_http_document_root(&mgos_sys_config, val); }
@@ -1567,6 +1566,7 @@ static inline void mgos_sys_config_set_eth_gw(const char *val) { mgos_config_set
 static inline void mgos_sys_config_set_eth_clk_mode(int         val) { mgos_config_set_eth_clk_mode(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_eth_mdc_gpio(int         val) { mgos_config_set_eth_mdc_gpio(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_eth_mdio_gpio(int         val) { mgos_config_set_eth_mdio_gpio(&mgos_sys_config, val); }
+static inline void mgos_sys_config_set_eth_phy_pwr_gpio(int         val) { mgos_config_set_eth_phy_pwr_gpio(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_gcp_enable(int         val) { mgos_config_set_gcp_enable(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_gcp_project(const char *val) { mgos_config_set_gcp_project(&mgos_sys_config, val); }
 static inline void mgos_sys_config_set_gcp_region(const char *val) { mgos_config_set_gcp_region(&mgos_sys_config, val); }

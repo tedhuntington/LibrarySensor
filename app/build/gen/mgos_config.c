@@ -1,7 +1,7 @@
 /* clang-format off */
 /*
  * Generated file - do not edit.
- * Command: /mongoose-os/fw/tools/gen_sys_config.py --c_name=mgos_config --c_global_name=mgos_sys_config --dest_dir=/fwbuild-volumes/latest/apps/app/esp32/build_contexts/build_ctx_997212078/build/gen/ /mongoose-os/fw/src/mgos_debug_udp_config.yaml /mongoose-os/fw/src/mgos_sys_config.yaml /mongoose-os/fw/platforms/esp32/src/esp32_sys_config.yaml /fwbuild-volumes/latest/apps/app/esp32/build_contexts/build_ctx_997212078/build/gen/mos_conf_schema.yml
+ * Command: /mongoose-os/fw/tools/gen_sys_config.py --c_name=mgos_config --c_global_name=mgos_sys_config --dest_dir=/fwbuild-volumes/latest/apps/app/esp32/build_contexts/build_ctx_398655086/build/gen/ /mongoose-os/fw/src/mgos_debug_udp_config.yaml /mongoose-os/fw/src/mgos_sys_config.yaml /mongoose-os/fw/platforms/esp32/src/esp32_sys_config.yaml /fwbuild-volumes/latest/apps/app/esp32/build_contexts/build_ctx_398655086/build/gen/mos_conf_schema.yml
  */
 
 #include <stddef.h>
@@ -176,13 +176,12 @@ const struct mgos_conf_entry mgos_config_schema_[320] = {
   {.type = CONF_TYPE_INT, .key = "uart_no", .offset = offsetof(struct mgos_config, rpc.uart.uart_no)},
   {.type = CONF_TYPE_INT, .key = "baud_rate", .offset = offsetof(struct mgos_config, rpc.uart.baud_rate)},
   {.type = CONF_TYPE_INT, .key = "fc_type", .offset = offsetof(struct mgos_config, rpc.uart.fc_type)},
-  {.type = CONF_TYPE_OBJECT, .key = "dash", .offset = offsetof(struct mgos_config, dash), .num_desc = 6},
+  {.type = CONF_TYPE_OBJECT, .key = "dash", .offset = offsetof(struct mgos_config, dash), .num_desc = 5},
   {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, dash.enable)},
   {.type = CONF_TYPE_STRING, .key = "token", .offset = offsetof(struct mgos_config, dash.token)},
   {.type = CONF_TYPE_STRING, .key = "server", .offset = offsetof(struct mgos_config, dash.server)},
   {.type = CONF_TYPE_STRING, .key = "ca_file", .offset = offsetof(struct mgos_config, dash.ca_file)},
   {.type = CONF_TYPE_BOOL, .key = "send_logs", .offset = offsetof(struct mgos_config, dash.send_logs)},
-  {.type = CONF_TYPE_INT, .key = "stats_interval", .offset = offsetof(struct mgos_config, dash.stats_interval)},
   {.type = CONF_TYPE_OBJECT, .key = "http", .offset = offsetof(struct mgos_config, http), .num_desc = 10},
   {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, http.enable)},
   {.type = CONF_TYPE_STRING, .key = "listen_addr", .offset = offsetof(struct mgos_config, http.listen_addr)},
@@ -199,7 +198,7 @@ const struct mgos_conf_entry mgos_config_schema_[320] = {
   {.type = CONF_TYPE_STRING, .key = "host_name", .offset = offsetof(struct mgos_config, dns_sd.host_name)},
   {.type = CONF_TYPE_STRING, .key = "txt", .offset = offsetof(struct mgos_config, dns_sd.txt)},
   {.type = CONF_TYPE_INT, .key = "ttl", .offset = offsetof(struct mgos_config, dns_sd.ttl)},
-  {.type = CONF_TYPE_OBJECT, .key = "eth", .offset = offsetof(struct mgos_config, eth), .num_desc = 8},
+  {.type = CONF_TYPE_OBJECT, .key = "eth", .offset = offsetof(struct mgos_config, eth), .num_desc = 9},
   {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, eth.enable)},
   {.type = CONF_TYPE_INT, .key = "phy_addr", .offset = offsetof(struct mgos_config, eth.phy_addr)},
   {.type = CONF_TYPE_STRING, .key = "ip", .offset = offsetof(struct mgos_config, eth.ip)},
@@ -208,6 +207,7 @@ const struct mgos_conf_entry mgos_config_schema_[320] = {
   {.type = CONF_TYPE_INT, .key = "clk_mode", .offset = offsetof(struct mgos_config, eth.clk_mode)},
   {.type = CONF_TYPE_INT, .key = "mdc_gpio", .offset = offsetof(struct mgos_config, eth.mdc_gpio)},
   {.type = CONF_TYPE_INT, .key = "mdio_gpio", .offset = offsetof(struct mgos_config, eth.mdio_gpio)},
+  {.type = CONF_TYPE_INT, .key = "phy_pwr_gpio", .offset = offsetof(struct mgos_config, eth.phy_pwr_gpio)},
   {.type = CONF_TYPE_OBJECT, .key = "gcp", .offset = offsetof(struct mgos_config, gcp), .num_desc = 7},
   {.type = CONF_TYPE_BOOL, .key = "enable", .offset = offsetof(struct mgos_config, gcp.enable)},
   {.type = CONF_TYPE_STRING, .key = "project", .offset = offsetof(struct mgos_config, gcp.project)},
@@ -857,9 +857,6 @@ const char *mgos_config_get_dash_ca_file(struct mgos_config *cfg) {
 int         mgos_config_get_dash_send_logs(struct mgos_config *cfg) {
   return cfg->dash.send_logs;
 }
-int         mgos_config_get_dash_stats_interval(struct mgos_config *cfg) {
-  return cfg->dash.stats_interval;
-}
 const struct mgos_config_http *mgos_config_get_http(struct mgos_config *cfg) {
   return &cfg->http;
 }
@@ -934,6 +931,9 @@ int         mgos_config_get_eth_mdc_gpio(struct mgos_config *cfg) {
 }
 int         mgos_config_get_eth_mdio_gpio(struct mgos_config *cfg) {
   return cfg->eth.mdio_gpio;
+}
+int         mgos_config_get_eth_phy_pwr_gpio(struct mgos_config *cfg) {
+  return cfg->eth.phy_pwr_gpio;
 }
 const struct mgos_config_gcp *mgos_config_get_gcp(struct mgos_config *cfg) {
   return &cfg->gcp;
@@ -1745,9 +1745,6 @@ void mgos_config_set_dash_ca_file(struct mgos_config *cfg, const char *val) {
 void mgos_config_set_dash_send_logs(struct mgos_config *cfg, int         val) {
   cfg->dash.send_logs = val;
 }
-void mgos_config_set_dash_stats_interval(struct mgos_config *cfg, int         val) {
-  cfg->dash.stats_interval = val;
-}
 void mgos_config_set_http_enable(struct mgos_config *cfg, int         val) {
   cfg->http.enable = val;
 }
@@ -1813,6 +1810,9 @@ void mgos_config_set_eth_mdc_gpio(struct mgos_config *cfg, int         val) {
 }
 void mgos_config_set_eth_mdio_gpio(struct mgos_config *cfg, int         val) {
   cfg->eth.mdio_gpio = val;
+}
+void mgos_config_set_eth_phy_pwr_gpio(struct mgos_config *cfg, int         val) {
+  cfg->eth.phy_pwr_gpio = val;
 }
 void mgos_config_set_gcp_enable(struct mgos_config *cfg, int         val) {
   cfg->gcp.enable = val;

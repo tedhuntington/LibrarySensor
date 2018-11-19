@@ -112,8 +112,7 @@
  },
  "dash": {
   "server": "wss://dash.mongoose-os.com/api/v2/rpc",
-  "ca_file": "ca.pem",
-  "stats_interval": 10
+  "ca_file": "ca.pem"
  },
  "http": {
   "enable": true,
@@ -127,7 +126,8 @@
  },
  "eth": {
   "mdc_gpio": 23,
-  "mdio_gpio": 18
+  "mdio_gpio": 18,
+  "phy_pwr_gpio": -1
  },
  "gcp": {
   "token_ttl": 3600
