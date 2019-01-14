@@ -331,7 +331,7 @@ static void shadow_cb(int ev, void *evd, void *arg) {
         pressure=0;
       }
 //      sprintf(json,"{ \"LED\": \"0\",\"Temperature\": \"%f\",\"Humidity\": \"%f\",\"Pressure\": \"%f\"}",temperature,humidity,pressure);
-      sprintf(json,"{ \"LED\": \"0\",\"Temperature\": \"%f\",\"Humidity\": \"%f\",\"Pressure\": \"%f\",\"Location\": \"%s\",\"AlertToggle\": \"%d\",\"HighTemp\": \"%f\",\"LowTemp\": \"%f\",\"HighHumidity\": \"%f\",\"LowHumidity\": \"%f\",\"HighWater\": \"%f\"}",}",
+      sprintf(json,"{ \"LED\": \"0\",\"Temperature\": \"%f\",\"Humidity\": \"%f\",\"Pressure\": \"%f\",\"Location\": \"%s\",\"AlertToggle\": \"%d\",\"HighTemp\": \"%f\",\"LowTemp\": \"%f\",\"HighHumidity\": \"%f\",\"LowHumidity\": \"%f\",\"HighWater\": \"%f\"}",
       temperature,humidity,pressure,
       mgos_sys_config_get_Location(),mgos_sys_config_get_AlertToggle(),mgos_sys_config_get_HighTemp(),
       mgos_sys_config_get_LowTemp(),mgos_sys_config_get_HighHumidity(),mgos_sys_config_get_LowHumidity(),

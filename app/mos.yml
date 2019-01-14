@@ -24,14 +24,15 @@ config_schema:
 #  - ["i2c.scl_gpio", 33]
   - ["i2c.sda_gpio", 23]
   - ["i2c.scl_gpio", 22]
+  - ["Location", "s", "UCI Libraries", {title: "Location of sensor"}]
+  - ["AlertToggle", "i", 0, {title: "Alert Toggle"}]
+  - ["HighTemp", "d", 0.0, {title: "High Temperature"}]
+  - ["LowTemp", "d", 0.0, {title: "Low Temperature"}]
+  - ["HighHumidity", "d", 0.0, {title: "High Humidity"}]
+  - ["LowHumidity", "d", 0.0, {title: "Low Humidity"}]
+  - ["HighWater", "d", 0.0, {title: "High Water"}]
   - ["apmode", "b", false, {title: "User set AP Mode configuration"}]
-  - ["Location", "UCI Libraries"]
-  - ["AlertToggle", 0]
-  - ["HighTemp", 0]
-  - ["LowTemp", 0]
-  - ["HighHumidity", 0]
-  - ["LowHumidity", 0]
-  - ["HighWater", 0]
+
 
 libs:
   - origin: https://github.com/mongoose-os-libs/boards
