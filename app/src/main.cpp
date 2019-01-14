@@ -238,9 +238,17 @@ static void button_cb(int pin, void *arg) {
     //bool res = mgos_mqtt_pubf("readings", 0, false /* retain */,
     //                          "{DeviceID: \"%s\",Temperature: %f, Humidity: %f, Pressure: %f}",
     //                        mgos_sys_config_get_device_id(),temperature,humidity,pressure);
+    //bool res = mgos_mqtt_pubf(topicReadings, 0, false /* retain */,
+    //        "{DeviceID: \"%s\",Temperature: %f,Humidity: %f,Pressure: %f,WaterLevel: %f}",
+    //        mgos_sys_config_get_device_id(),temperature,humidity,pressure,WaterLevel);
     bool res = mgos_mqtt_pubf(topicReadings, 0, false /* retain */,
-            "{DeviceID: \"%s\",Temperature: %f,Humidity: %f,Pressure: %f,WaterLevel: %f}",
-            mgos_sys_config_get_device_id(),temperature,humidity,pressure,WaterLevel);
+    "{DeviceID: \"%s\",Temperature: %f,Humidity: %f,Pressure: %f,WaterLevel: %f,Location: %s,AlertToggle: %d,HighTemp: %f,LowTemp: %f,HighHumidity: %f,LowHumidity: %f,HighWater: %f}",
+    mgos_sys_config_get_device_id(),temperature,humidity,pressure,WaterLevel,
+    mgos_sys_config_get_Location(),mgos_sys_config_get_AlertToggle(),mgos_sys_config_get_HighTemp(),
+      mgos_sys_config_get_LowTemp(),mgos_sys_config_get_HighHumidity(),mgos_sys_config_get_LowHumidity(),
+      mgos_sys_config_get_HighWater()
+);
+
 
 
   //#endif 
@@ -322,7 +330,14 @@ static void shadow_cb(int ev, void *evd, void *arg) {
         humidity=0;
         pressure=0;
       }
-      sprintf(json,"{ \"LED\": \"0\",\"Temperature\": \"%f\",\"Humidity\": \"%f\",\"Pressure\": \"%f\"}",temperature,humidity,pressure);
+//      sprintf(json,"{ \"LED\": \"0\",\"Temperature\": \"%f\",\"Humidity\": \"%f\",\"Pressure\": \"%f\"}",temperature,humidity,pressure);
+      sprintf(json,"{ \"LED\": \"0\",\"Temperature\": \"%f\",\"Humidity\": \"%f\",\"Pressure\": \"%f\",\"Location\": \"%s\",\"AlertToggle\": \"%d\",\"HighTemp\": \"%f\",\"LowTemp\": \"%f\",\"HighHumidity\": \"%f\",\"LowHumidity\": \"%f\",\"HighWater\": \"%f\"}",}",
+      temperature,humidity,pressure,
+      mgos_sys_config_get_Location(),mgos_sys_config_get_AlertToggle(),mgos_sys_config_get_HighTemp(),
+      mgos_sys_config_get_LowTemp(),mgos_sys_config_get_HighHumidity(),mgos_sys_config_get_LowHumidity(),
+      mgos_sys_config_get_HighWater());
+    
+
       mgos_shadow_update(0,json);
 
     break;

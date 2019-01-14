@@ -25,6 +25,13 @@ config_schema:
   - ["i2c.sda_gpio", 23]
   - ["i2c.scl_gpio", 22]
   - ["apmode", "b", false, {title: "User set AP Mode configuration"}]
+  - ["Location", "UCI Libraries"]
+  - ["AlertToggle", 0]
+  - ["HighTemp", 0]
+  - ["LowTemp", 0]
+  - ["HighHumidity", 0]
+  - ["LowHumidity", 0]
+  - ["HighWater", 0]
 
 libs:
   - origin: https://github.com/mongoose-os-libs/boards
