@@ -94,9 +94,17 @@ static void mqtt_timer_cb(void *arg) {
   //                          temperature,humidity,pressure,x,ir,full,full-ir,lux,tvoc,co2);
 
   //bool res = mgos_mqtt_pubf(topic,MG_MQTT_QOS(1),false,json);
-  bool res = mgos_mqtt_pubf(topicReadings, 0, false /* retain */,
-            "{DeviceID: \"%s\",Temperature: %f,Humidity: %f,Pressure: %f,WaterLevel: %f}",
-            mgos_sys_config_get_device_id(),temperature,humidity,pressure,WaterLevel);
+//  bool res = mgos_mqtt_pubf(topicReadings, 0, false /* retain */,
+//            "{DeviceID: \"%s\",Temperature: %f,Humidity: %f,Pressure: %f,WaterLevel: %f}",
+//            mgos_sys_config_get_device_id(),temperature,humidity,pressure,WaterLevel);
+     bool res = mgos_mqtt_pubf(topicReadings, 0, false /* retain */,
+    "{DeviceID: \"%s\",Temperature: %f,Humidity: %f,Pressure: %f,WaterLevel: %f,Location: %s,AlertToggle: %d,HighTemp: %f,LowTemp: %f,HighHumidity: %f,LowHumidity: %f,HighWater: %f}",
+    mgos_sys_config_get_device_id(),temperature,humidity,pressure,WaterLevel,
+    mgos_sys_config_get_Location(),mgos_sys_config_get_AlertToggle(),mgos_sys_config_get_HighTemp(),
+      mgos_sys_config_get_LowTemp(),mgos_sys_config_get_HighHumidity(),mgos_sys_config_get_LowHumidity(),
+      mgos_sys_config_get_HighWater()
+    );
+
 
 } //static void led_timer_cb(void *arg) {
 
@@ -234,6 +242,10 @@ static void button_cb(int pin, void *arg) {
     WaterLevel= (float)WaterLevelReading/4095.0;  // divide by 1240.9 for voltage relative to 3.3v
     LOG(LL_INFO, ("WaterLevel: %f",WaterLevel));
 
+
+    LOG(LL_INFO, ("Location: %s",mgos_sys_config_get_Location()));
+    LOG(LL_INFO, ("AlertToggle: %d",mgos_sys_config_get_AlertToggle()));
+
     //publish to "readings" topic  
     //bool res = mgos_mqtt_pubf("readings", 0, false /* retain */,
     //                          "{DeviceID: \"%s\",Temperature: %f, Humidity: %f, Pressure: %f}",
@@ -247,7 +259,7 @@ static void button_cb(int pin, void *arg) {
     mgos_sys_config_get_Location(),mgos_sys_config_get_AlertToggle(),mgos_sys_config_get_HighTemp(),
       mgos_sys_config_get_LowTemp(),mgos_sys_config_get_HighHumidity(),mgos_sys_config_get_LowHumidity(),
       mgos_sys_config_get_HighWater()
-);
+    );
 
 
 
