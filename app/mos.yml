@@ -1,19 +1,15 @@
+name: ucilib-sensor-v1
 author: Ted Huntington
 description: Mongoose firmware for C/C++ to read and send temperature, humidity, and other sensor info to web over wifi
-version: 1.0
 
 libs_version: ${mos.version}
 modules_version: ${mos.version}
 mongoose_os_version: ${mos.version}
 
-tags:
-  - c
-
-sources:
-  - src
-
-filesystem:
-  - fs
+#cdefs:
+#  LED_GPIO: GPIO_NUM_12  //GPIO number for LED
+#  AP_GPIO: GPIO_NUM_2 //GPIO number for reading in user toggle AP mode flag
+#  ADC_GPIO: GPIO_NUM_32 //GPIO number for reading in water sensor voltage (ADC currently uses pin32 ADC 1, Channel 4)
 
 config_schema:
   - ["mqtt.server", "iot.eclipse.org:1883"]
@@ -24,6 +20,9 @@ config_schema:
 #  - ["i2c.scl_gpio", 33]
   - ["i2c.sda_gpio", 23]
   - ["i2c.scl_gpio", 22]
+  - ["ucilib.wait_for_shadow_accept", "i", 30, {title: "Amount of time (in seconds) to wait for a shadow to be accepted (30 seconds)"}]
+  - ["ucilib.reading_interval", "i", 60, {title: "Amount of time (in seconds) that the device waits to (wake and) read from the sensors (60=1min)"}]
+  - ["ucilib.sending_interval", "i", 600, {title: "Amount of time (in seconds) that the device waits to send the data to the cloud (600=10min)"}]
   - ["Location", "s", "UCI Libraries", {title: "Location of sensor"}]
   - ["AlertToggle", "i", 0, {title: "Alert Toggle"}]
   - ["HighTemp", "d", 0.0, {title: "High Temperature"}]
@@ -35,15 +34,30 @@ config_schema:
 
 
 libs:
-  - origin: https://github.com/mongoose-os-libs/boards
-  - origin: https://github.com/mongoose-os-libs/demo-bundle
+  - origin: https://github.com/TedHuntingtonUCI/bme280
   - origin: https://github.com/mongoose-os-libs/http-server
-#  - origin: https://github.com/mongoose-os-libs/i2c
-  - origin: https://github.com/mongoose-os-libs/bme280
+  - origin: https://github.com/mongoose-os-libs/i2c
+#  - origin: https://github.com/mongoose-os-libs/bme280
+
   - origin: https://github.com/mongoose-os-libs/shadow
   - origin: https://github.com/mongoose-os-libs/aws
+  - origin: https://github.com/mongoose-os-libs/adc
+  - origin: https://github.com/mongoose-os-libs/sntp  
   - origin: https://github.com/mongoose-os-libs/wifi
   - origin: https://github.com/mongoose-os-apps/wifi-setup-web
-  
+
+sources:
+  - src
+
+includes:
+  - include
+
+filesystem:
+  - fs
+
+build_vars:
+  ESP_IDF_SDKCONFIG_OPTS: "${build_vars.ESP_IDF_SDKCONFIG_OPTS} CONFIG_ESP32_REV_MIN=1 CONFIG_ESP32_REV_MIN_0=n CONFIG_ESP32_REV_MIN_1=y"
+    
+    
 # Used by the mos tool to catch mos binaries incompatible with this file format
 manifest_version: 2017-05-18
