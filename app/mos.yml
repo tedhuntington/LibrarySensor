@@ -7,9 +7,9 @@ modules_version: ${mos.version}
 mongoose_os_version: ${mos.version}
 
 #cdefs:
-#  LED_GPIO: GPIO_NUM_12  //GPIO number for LED
-#  AP_GPIO: GPIO_NUM_2 //GPIO number for reading in user toggle AP mode flag
-#  ADC_GPIO: GPIO_NUM_32 //GPIO number for reading in water sensor voltage (ADC currently uses pin32 ADC 1, Channel 4)
+#    LED_GPIO: GPIO_NUM_12  //GPIO number for LED
+#    AP_GPIO: GPIO_NUM_2 //GPIO number for reading in user toggle AP mode flag
+#    ADC_GPIO: GPIO_NUM_32 //GPIO number for reading in water sensor voltage (ADC currently uses pin32 ADC 1, Channel 4)
 
 config_schema:
   - ["mqtt.server", "iot.eclipse.org:1883"]

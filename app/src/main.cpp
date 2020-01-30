@@ -14,6 +14,7 @@
 #include "ms_state.h"
 #include "ms_wifi.h"
 #include "ms_cloud.h"
+#include "ms_storage.h"
 
 RTC_DATA_ATTR bool time_synced = false; // Whether we have synced via SNTP yet
 RTC_DATA_ATTR time_t power_on_timestamp = 0;
@@ -83,6 +84,7 @@ enum mgos_app_init_result mgos_app_init(void) {
 
   init_gpio();
   init_state();
+	init_storage();
   init_sensors();
   init_buttons();
   init_wifi();

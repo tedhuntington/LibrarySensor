@@ -35,27 +35,26 @@ extern mgos_timer_id ShadowAcceptTimeoutTimer;
 void perform_readings(int button) {
 	time_t TimeToNextSend;
 
-    LOG(LL_INFO, ("\n\n****************\nREADINGS | begin"));
+  LOG(LL_INFO, ("\n\n****************\nREADINGS | begin"));
 
-    read_bme280(SensorFlags & SENSOR_FLAGS_FOUND_BME280);
+  read_bme280(SensorFlags & SENSOR_FLAGS_FOUND_BME280);
 
 
 	LOG(LL_INFO, ("button=%d",button));
 
 	TimeToNextSend=LastSendTimeStamp+SendingInterval-time(NULL);
-	if (time_synced && (TimeToNextSend<0)) {
+	if (button || (time_synced && (TimeToNextSend<0))) {
         //Send data
 		if (button) {
 		    LOG(LL_INFO, ("Button read and send"));
-		} else {
-			LastSendTimeStamp=time(NULL);
-		}
-
+		} 
+		
+		LastSendTimeStamp=time(NULL);
 
         //Send MQTT
 
-        bool res = mgos_mqtt_pubf(topicReadings, 0, false /* retain */,
-        "{DeviceID: \"%s\",Temperature: %f,Humidity: %f,Pressure: %f,WaterLevel: %f,Location: \"%s\",AlertToggle: %d,HighTemp: %f,LowTemp: %f,HighHumidity: %f,LowHumidity: %f,HighWater: %f}",
+    bool res = mgos_mqtt_pubf(topicReadings, 0, false /* retain */,
+        "{DeviceID: %Q,Temperature: %f,Humidity: %f,Pressure: %f,WaterLevel: %f,Location: %Q,AlertToggle: %d,HighTemp: %f,LowTemp: %f,HighHumidity: %f,LowHumidity: %f,HighWater: %f}",
         mgos_sys_config_get_device_id(),DeviceState.readings.temperature,DeviceState.readings.humidity,DeviceState.readings.pressure,DeviceState.readings.WaterLevel,
         DeviceState.location,DeviceState.alerts.AlertToggle,DeviceState.alerts.HighTemp,
         DeviceState.alerts.LowTemp,DeviceState.alerts.HighHumidity,DeviceState.alerts.LowHumidity,
@@ -63,7 +62,7 @@ void perform_readings(int button) {
 
 
         //Send shadow update
-        mgos_shadow_updatef(0,"{\"Temperature\": \"%f\",\"Humidity\": \"%f\",\"Pressure\": \"%f\",\"Location\": \"%s\",\"AlertToggle\": \"%d\",\"HighTemp\": \"%f\",\"LowTemp\": \"%f\",\"HighHumidity\": \"%f\",\"LowHumidity\": \"%f\",\"HighWater\": \"%f\"}",
+    mgos_shadow_updatef(0,"{Temperature: %f,Humidity: %f,Pressure: %f,Location: %Q,AlertToggle: %d,HighTemp: %f,LowTemp: %f,HighHumidity: %f,LowHumidity: %f,HighWater: %f}",
         DeviceState.readings.temperature,DeviceState.readings.humidity,DeviceState.readings.pressure,
         DeviceState.location,DeviceState.alerts.AlertToggle,DeviceState.alerts.HighTemp,
         DeviceState.alerts.LowTemp,DeviceState.alerts.HighHumidity,DeviceState.alerts.LowHumidity,
@@ -84,6 +83,9 @@ void perform_readings(int button) {
 		ShadowAcceptTimeoutTimer=mgos_set_timer(ShadowAcceptTimeout * 1000, 0, shadow_accept_timeout_cb, NULL);
 
 	} //	if (button || (TimeToNextSend<0)) {
+	if (!time_synced) {
+		LOG(LL_INFO, ("Internet time is not synced"));		
+	}
 	LOG(LL_INFO, ("Time to next send: %lim %lis",(TimeToNextSend/60),TimeToNextSend-(TimeToNextSend/60)*60));
 
     LOG(LL_INFO, ("\nREADINGS | complete\n*******************\n"));

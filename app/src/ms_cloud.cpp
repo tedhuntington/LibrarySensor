@@ -48,23 +48,29 @@ static void shadow_get_accepted_cb(int ev, void *ev_data, void *arg) {
 // Called when AWS device shadow is changed (external input, aka through user input)
 static void shadow_delta_cb(int ev, void *ev_data, void *arg) {
 	struct mg_str *delta = (struct mg_str *) ev_data;
-	char *url = NULL; 
-    int value;
+  int value;
 
 	//char *environ = NULL; 
-    LOG(LL_INFO, ("MGOS_SHADOW_UPDATE_DELTA"));
+  LOG(LL_INFO, ("MGOS_SHADOW_UPDATE_DELTA"));
 
-	 LOG(LL_INFO, ("GOT DELTA: [%.*s]", (int) delta->len, delta->p));
-    // ******************************************************************
-    // * Logic for if the Device Shadow has been updated in the backend *
-    // ******************************************************************
+	LOG(LL_INFO, ("GOT DELTA: [%.*s]", (int) delta->len, delta->p));
+	// ******************************************************************
+	// * Logic for if the Device Shadow has been updated in the backend *
+	// ******************************************************************
 
-      if (json_scanf(delta->p, delta->len, "{LED: %d}", &value)) {
-          LOG(LL_INFO, ("Got LED delta"));          
-          mgos_shadow_updatef(0,"{\"LED\": \"%d\"}",value); //update state to clear delta
-          mgos_gpio_write(LED_GPIO,value);                // according to the delta
-      }  //if (json_scanf(
+	if (json_scanf(delta->p, delta->len, "{LED: %d}", &value)) {
+			LOG(LL_INFO, ("Got LED delta"));          
+			mgos_shadow_updatef(0,"{\"LED\": \"%d\"}",value); //update state to clear delta
+			mgos_gpio_write(LED_GPIO,value);                // according to the delta
+	}  //if (json_scanf(
 
+	if (json_scanf(delta->p, delta->len, "{Location: %Q, AlertToggle: %d, HighTemp: %f, LowTemp: %f, HighHumidity: %f, LowHumidity: %f, HighWater: %f}",&DeviceState.location,&DeviceState.alerts.AlertToggle,&DeviceState.alerts.HighTemp,&DeviceState.alerts.LowTemp, &DeviceState.alerts.HighHumidity, &DeviceState.alerts.LowHumidity, &DeviceState.alerts.HighWater)) {
+		//LOG(LL_INFO, ("%s", environ));
+		mgos_shadow_updatef(0, "{Location: %Q, AlertToggle: %d, HighTemp: %f, LowTemp: %f, HighHumidity: %f, LowHumidity: %f, HighWater: %f}",DeviceState.location,DeviceState.alerts.AlertToggle,DeviceState.alerts.HighTemp,DeviceState.alerts.LowTemp, DeviceState.alerts.HighHumidity, DeviceState.alerts.LowHumidity, DeviceState.alerts.HighWater); 
+//		if (save_u32("location",LocToNum(DeviceState.location))) {
+//			LOG(LL_INFO, ("Saved location=%s to NVS",DeviceState.location));					
+//		}
+	}
 }
 
 // Called when AWS accepts an update to the device shadow from this device
